@@ -1,0 +1,32 @@
+<table id="example" class="display" width="100%"></table>
+
+script.
+    const getData = async() => {
+        const response = await fetch('https://data.nasdaq.com/api/v3/datasets/BCHARTS/BITSTAMPUSD?utm_source=r-search-yahoo&utm_medium=organic&utm_campaign=&utm_content=api-for-bitcoin-data');
+        var responseData = await response.json();
+
+        return responseData.dataset.data;
+    };
+    $(document).ready(function () {
+        getData().then((data) => {
+            dataSet = data;
+
+            $('#example').DataTable({
+                data: dataSet,
+                columns: [
+                    { title: 'Date' },
+                    { title: 'Open' },
+                    { title: 'High' },
+                    { title: 'Low' },
+                    { title: 'Close' },
+                    { title: 'Volume (BTC)' },
+                    { title: 'Volume (Currency)' },
+                    { title: 'Weighted Price' },
+                ],
+            });
+        }); 
+    });
+
+
+
+

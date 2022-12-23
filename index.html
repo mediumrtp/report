@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body onload="httpGet()">
+    <h1 class="heading">Registration form</h1>
+    <form class="form" action="/add_user" method="POST">
+        <input type="text" name="empName" placeholder="First name" required>
+        <input type="email" name="empEmail" placeholder="Email" required>
+        <input type="text" name="empMobile" placeholder="Phone" required>
+        <input type="submit" value="Submit">
+    </form>
+    <form class="delete" action="/delete" method="POST">
+        <input type="text" name="id" placeholder="ID" required>
+        <input type="submit" value="Delete">
+        <input type="button" id="btnGetUsers" value="Get Users" />
+        <table id="table1" style="margin-left:60px;">
+            <th>
+                <div class="col-sm-4" style="text-align: center;">
+                    <td> Name</td>
+                </div>
+                <div class="col-sm-4" style="text-align: center;">
+                    <td> Email</td>
+                </div>
+                <div class="col-sm-4" style="text-align: center;">
+                    <td> Telephone</td>
+                </div>
+                <td> Email</td>
+                <td> Telephone</td>
+            </th>
+            <td>
+                <script type="text/javascript" style="margin-left:40px;">
+                    function httpGet() {
+                        var xmlHttp = new XMLHttpRequest();
+                        xmlHttp.open("GET", "http://localhost:8000/view", false); // false for synchronous request
+                        xmlHttp.send(null);
+                        return JSON.parse(xmlHttp.responseText);
+                    }
+                    var myBtn = document.getElementById('btnGetUsers');
+                    myBtn.addEventListener('click', (event) => {
+                        console.log('clicked');
+
+                        let htmlTable = '<table1>';
+                        var myData = httpGet()
+                        for (var i = 0; i < myData.length; i++) {
+                            htmlTable +=
+                                '<td>' + myData[i].empName +
+                                '<td>' + myData[i].empEmail +
+                                '<td>' + myData[i].empMobile +
+                                '</tr>' +
+                                '</table>'
+                        }
+                        table1.innerHTML = htmlTable;
+                    });
+
+                    table1.css("border", "solid");
+                    $('body').append(table1);
+                </script>
+    </form>
+</body>
+
+</html>
